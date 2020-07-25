@@ -11,12 +11,12 @@ var process = require("process");
 /**
  * Variable Declaration
  */
-var public = "public";
+const build = "build";
 
 /**
- *  Fetching files in the public folder
+ *  Fetching files in the build folder
  */
-fs.readdir(public, function(err, files) {
+fs.readdir(build, function(err, files) {
   if (err) {
     console.error("Could not list the directory.", err);
     process.exit(1);
@@ -24,8 +24,8 @@ fs.readdir(public, function(err, files) {
   files.forEach(function(file, index) {
     // Make one pass and make the file complete
     if (file.indexOf(".html") > 0) {
-      var filepath = path.join(public, file);
-      var route = filepath.replace(".html", "").replace(public + "/", "");
+      var filepath = path.join(build, file);
+      var route = filepath.replace(".html", "").replace(build + "/", "");
       getFileStat(filepath,route);   
     }
   });
@@ -55,7 +55,7 @@ function createRoute(route, filepath) {
 
 /**************** Run Application*************/
 app.set("port", process.env.PORT || 5000);
-app.use(express.static(__dirname + "/public"));
+app.use(express.static(__dirname + "/build"));
 app.listen(app.get("port"), function() {
   console.log("App is running, server is listening on port ", app.get("port"));
 });
